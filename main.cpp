@@ -13,22 +13,15 @@
 using namespace std;
 using namespace chrono;
 
-struct RaceResult {
-    string operation;
-    long long vectorTime;
-    long long listTime;
-    long long setTime;
-};
-
 int main() {
     const int NUM_SIMULATIONS = 15;
     const int NUM_OPERATIONS = 4;
     const int NUM_STRUCTURES = 3;
 
     // 3D array:
-    // first dimension: 15 simulation runs + 1 accumulator slice
-    // second dimension: read, sort, insert, delete
-    // third dimension: vector, list, set
+    // first dimension: 15 simulation runs (0-14) + 1 totals slice (15)
+    // second dimension: operations (0 = read, 1 = sort, 2 = insert, 3 = delete)
+    // third dimension: data structures (0 = vector, 1 = list, 2 = set)
     long long times[16][NUM_OPERATIONS][NUM_STRUCTURES] = {};
 
     
@@ -207,16 +200,13 @@ int main() {
 
             for (int structure = 0; 
                 structure < NUM_STRUCTURES; structure++) {
-                    // calc avg time 
-                    long long average = 
-                    times[15][operation][structure] / NUM_SIMULATIONS;
+                    // calc avg runtime in nanoseconds
+                    long long average = times[15][operation][structure] / NUM_SIMULATIONS;
                 
                     cout << setw(12) << average;
             }
         cout << '\n';
     }
-
-
-
+    
     return 0;
 }
