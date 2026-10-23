@@ -21,6 +21,16 @@ struct RaceResult {
 };
 
 int main() {
+    const int NUM_SIMULATIONS = 15;
+    const int NUM_OPERATIONS = 4;
+    const int NUM_STRUCTURES = 3;
+
+    // 3D array:
+    // first dimension: 15 simulation runs + 1 accumulator slice
+    // second dimension: read, sort, insert, delete
+    // third dimension: vector, list, set
+    long long times[16][NUM_OPERATIONS][NUM_STRUCTURES] = {};
+
     // make a vector, list, and set to store the codes
     vector<string> codesVector;
     list<string> codesList;
