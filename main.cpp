@@ -10,6 +10,7 @@
 #include <set>
 #include <iterator>
 #include <iomanip>
+
 using namespace std;
 using namespace chrono;
 
@@ -24,13 +25,12 @@ int main() {
     // third dimension: data structures (0 = vector, 1 = list, 2 = set)
     long long times[16][NUM_OPERATIONS][NUM_STRUCTURES] = {};
 
-    
     // run the experiment 15 times
     for (int run = 0; run < NUM_SIMULATIONS; run++) {
         // new containers for this run
-        vector<string> codesVector;
-        list<string> codesList;
-        set<string> codesSet;
+        vector < string > codesVector;
+        list < string > codesList;
+        set < string > codesSet;
         string code;
 
         // read names into the vector
@@ -48,7 +48,7 @@ int main() {
 
         auto end = high_resolution_clock::now();
         times[run][0][0] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
         vectorFile.close();
 
         // read names into the list
@@ -66,7 +66,7 @@ int main() {
 
         end = high_resolution_clock::now();
         times[run][0][1] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
         listFile.close();
 
         // read names into the set
@@ -84,7 +84,7 @@ int main() {
 
         end = high_resolution_clock::now();
         times[run][0][2] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
         setFile.close();
 
         // sort the vector
@@ -93,7 +93,7 @@ int main() {
         end = high_resolution_clock::now();
 
         times[run][1][0] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
 
         // sort the list
         start = high_resolution_clock::now();
@@ -101,7 +101,7 @@ int main() {
         end = high_resolution_clock::now();
 
         times[run][1][1] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
 
         // set is already sorted
         times[run][1][2] = 0;
@@ -116,7 +116,7 @@ int main() {
 
         end = high_resolution_clock::now();
         times[run][2][0] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
 
         // insert into the middle of the list
         start = high_resolution_clock::now();
@@ -127,7 +127,7 @@ int main() {
 
         end = high_resolution_clock::now();
         times[run][2][1] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
 
         // insert into the set
         start = high_resolution_clock::now();
@@ -136,7 +136,7 @@ int main() {
 
         end = high_resolution_clock::now();
         times[run][2][2] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
 
         // delete from the middle of the vector
         start = high_resolution_clock::now();
@@ -147,7 +147,7 @@ int main() {
 
         end = high_resolution_clock::now();
         times[run][3][0] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
 
         // delete from the middle of the list
         start = high_resolution_clock::now();
@@ -158,7 +158,7 @@ int main() {
 
         end = high_resolution_clock::now();
         times[run][3][1] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
 
         // delete the middle element of the set
         start = high_resolution_clock::now();
@@ -169,13 +169,11 @@ int main() {
 
         end = high_resolution_clock::now();
         times[run][3][2] =
-            duration_cast<nanoseconds>(end - start).count();
+            duration_cast < nanoseconds > (end - start).count();
 
         // add this run's results to the accumulator slice (index 15)
-        for (int operation = 0;
-             operation < NUM_OPERATIONS; operation++) {
-            for (int structure = 0;
-                 structure < NUM_STRUCTURES; structure++) {
+        for (int operation = 0; operation < NUM_OPERATIONS; operation++) {
+            for (int structure = 0; structure < NUM_STRUCTURES; structure++) {
                 times[15][operation][structure] +=
                     times[run][operation][structure];
             }
@@ -185,28 +183,31 @@ int main() {
     // display avg runtimes
     cout << "Number of simulations: " << NUM_SIMULATIONS << "\n\n";
 
-    cout << right << setw(12) << "Operation" 
-        << setw(12) << "Vector"
-        << setw(12) << "List"
-        << setw(12) << "Set" << '\n';
+    cout << right << setw(12) << "Operation" <<
+        setw(12) << "Vector" <<
+        setw(12) << "List" <<
+        setw(12) << "Set" << '\n';
 
     cout << string(48, '-') << '\n';
 
-    string operations[] = {"Read", "Sort", "Insert", "Delete"};
+    string operations[] = {
+        "Read",
+        "Sort",
+        "Insert",
+        "Delete"
+    };
 
-    for (int operation = 0; 
-        operation < NUM_OPERATIONS; operation++) {
-            cout << right << setw(12) << operations[operation];
+    for (int operation = 0; operation < NUM_OPERATIONS; operation++) {
+        cout << right << setw(12) << operations[operation];
 
-            for (int structure = 0; 
-                structure < NUM_STRUCTURES; structure++) {
-                    // calc avg runtime in nanoseconds
-                    long long average = times[15][operation][structure] / NUM_SIMULATIONS;
-                
-                    cout << setw(12) << average;
-            }
+        for (int structure = 0; structure < NUM_STRUCTURES; structure++) {
+            // calc avg runtime in nanoseconds
+            long long average = times[15][operation][structure] / NUM_SIMULATIONS;
+
+            cout << setw(12) << average;
+        }
         cout << '\n';
     }
-    
+
     return 0;
 }
