@@ -189,31 +189,34 @@ int main() {
         }
     }
 
-    // temp output to test the accumulated totals
-    cout << "Milestone 2 test results\n";
+    // display avg runtimes
     cout << "Number of simulations: " << NUM_SIMULATIONS << "\n\n";
 
-    cout << left << setw(15) << "Operation"
-         << right << setw(15) << "Vector total"
-         << setw(15) << "List total"
-         << setw(15) << "Set total" << '\n';
+    cout << right << setw(12) << "Operation" 
+        << setw(12) << "Vector"
+        << setw(12) << "List"
+        << setw(12) << "Set" << '\n';
 
-    cout << string(60, '-') << '\n';
+    cout << string(48, '-') << '\n';
 
     string operations[] = {"Read", "Sort", "Insert", "Delete"};
 
-    for (int operation = 0;
-         operation < NUM_OPERATIONS; operation++) {
-        cout << left << setw(15) << operations[operation];
+    for (int operation = 0; 
+        operation < NUM_OPERATIONS; operation++) {
+            cout << right << setw(12) << operations[operation];
 
-        for (int structure = 0;
-             structure < NUM_STRUCTURES; structure++) {
-            cout << right << setw(15)
-                 << times[15][operation][structure];
-        }
-
+            for (int structure = 0; 
+                structure < NUM_STRUCTURES; structure++) {
+                    // calc avg time 
+                    long long average = 
+                    times[15][operation][structure] / NUM_SIMULATIONS;
+                
+                    cout << setw(12) << average;
+            }
         cout << '\n';
     }
+
+
 
     return 0;
 }
