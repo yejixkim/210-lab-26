@@ -27,7 +27,7 @@ int main() {
     set<string> codesSet;
 
     // open codes file
-    ifstream inputFile("codes.txt");
+    ifstream inputFile("names.txt");
 
     // check file
     if (!inputFile) {
